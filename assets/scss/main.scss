@@ -1,0 +1,11 @@
+@use "layout/_nav.scss" as nav;
+@use "tools/_fonts.scss" as fonts;
+@use "tools/_colors.scss" as colors;
+@use "layout/_slide.scss" as slide;
+@use "tools/_tools_comp.scss" as tools;
+@use "pages/home.scss" as home;
+
+* {
+    margin: 0;
+    padding: 0;
+}

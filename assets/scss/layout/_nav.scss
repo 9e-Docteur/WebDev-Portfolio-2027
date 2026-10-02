@@ -1,0 +1,63 @@
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin: 16px;
+
+    ul {
+        display: flex;
+
+        margin-right: 32px;
+
+
+
+        border: 1px solid var(--tertiary-color);
+        border-radius: 16px;
+
+        li {
+            padding: 4px 16px 4px 16px;
+            border-radius: 16px;
+            border: 1px solid transparent;
+            list-style: none;
+
+            a {
+                text-decoration: none;
+                color: inherit;
+                font-family: 'M Plus Rounded', sans-serif;
+            }
+
+            transition: all 0.3s ease-in-out;
+
+            &:hover {
+                background-color: var(--secondary-color);
+                border: 1px solid var(--primary-color);
+
+                a {
+                    color: var(--primary-color);
+                }
+            }
+        }
+    }
+}
+
+.title {
+    h1 {
+        font-family: "Edu Hand", cursive;
+    }
+
+    h2 {
+        font-family: "Silkscreen", cursive;
+    }
+}
+
+.active {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--primary-color);
+
+    a {
+        color: var(--primary-color);
+        font-weight: bold;
+    }
+
+}
