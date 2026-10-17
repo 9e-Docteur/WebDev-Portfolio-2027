@@ -4,6 +4,8 @@
 @use "layout/_slide.scss" as slide;
 @use "tools/_tools_comp.scss" as tools;
 @use "pages/home.scss" as home;
+@use "layout/cards.scss" as cards;
+@use "layout/compt.scss" as compt;
 
 * {
     margin: 0;

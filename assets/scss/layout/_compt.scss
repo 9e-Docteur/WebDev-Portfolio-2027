@@ -1,0 +1,60 @@
+// Cards -- Compétences & Logiciels utilisés
+
+.compt-holder {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.compt-item {
+    width: 180px;
+    height: 180px;
+
+    background-color: var(--tertiary-color);
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    transition: all 0.3s ease-in-out;
+
+    img {
+        margin: 32px;
+        width: 80%;
+        height: inherit;
+        border-radius: 16px;
+        margin-bottom: 16px;
+    }
+
+    .compt-back {
+        width: inherit;
+        background-color: #fff;
+        color: black;
+        border-radius: 0 0 16px 16px;
+        z-index: 0;
+
+        transform: translateY(-25px);
+
+        p {
+            padding: 8px;
+            text-align: center;
+            font-family: 'M Plus Rounded', sans-serif;
+            font-weight: 700;
+        }
+    }
+
+    &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+
+        .compt-back {
+            transform: translateY(0);
+        }
+    }
+
+}
