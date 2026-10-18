@@ -1,0 +1,37 @@
+.small-contact-left {
+    width: 250px;
+    height: 350px;
+    background-color: var(--card-color);
+    border: 1px solid var(--tertiary-color);
+    border-radius: 16px;
+
+    padding: 32px;
+}
+
+.contact-form-right {
+    width: 500px;
+    height: 350px;
+    background-color: var(--card-color);
+    border: 1px solid var(--tertiary-color);
+    border-radius: 16px;
+
+    padding: 32px;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+}
+
+.ct-item {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+
+    p {
+        font-family: 'M Plus Rounded', sans-serif;
+        font-weight: 400;
+    }
+}

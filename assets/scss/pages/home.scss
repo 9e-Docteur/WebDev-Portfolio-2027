@@ -1,9 +1,12 @@
-body {
-    color: var(--text-color);
-    background: radial-gradient(circle, #7c7c7c, #2f2f30);
-}
-
 .badges {
     width: 302px;
     margin-top: 16px;
+}
+
+#avatar {
+    border-radius: 50%;
+}
+
+.dark-bg {
+    background-color: #363636;
 }

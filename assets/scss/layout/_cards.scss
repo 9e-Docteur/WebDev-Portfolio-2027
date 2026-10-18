@@ -10,7 +10,8 @@
     width: 300px;
     height: 320px;
     border-radius: 16px;
-    background-color: var(--tertiary-color);
+    background-color: var(--card-color);
+    border: 1px solid var(--tertiary-color);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 

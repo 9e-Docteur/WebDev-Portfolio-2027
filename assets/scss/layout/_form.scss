@@ -1,0 +1,35 @@
+.form-group {
+    display: flex;
+    flex-direction: column;
+
+    label {
+        margin-bottom: 8px;
+        font-family: 'M Plus Rounded', sans-serif;
+    }
+}
+
+.two-fields {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.form-control {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--tertiary-color);
+    background-color: var(--card-color);
+    color: inherit;
+
+    font-family: 'M Plus Rounded', sans-serif;
+}
+
+textarea {
+    resize: none;
+    height: 100px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--tertiary-color);
+    background-color: var(--card-color);
+    color: inherit;
+}

@@ -12,7 +12,7 @@
     <?php include 'partials/nav.php'; ?>
     <div class="slide">
         <div class="centered flex-direction-column">
-            <img src="assets/svg/avatar.svg" alt="Avatar de Loris Populaire">
+            <img src="assets/svg/avatar.svg" alt="Avatar de Loris Populaire" id="avatar" class="dark-bg">
             <div class="title txt-centered">
                 <h1>Loris Populaire</h1>
                 <h2>Web Developper</h2>
@@ -25,6 +25,14 @@
                 <img src="assets/svg/badges/react.svg" alt="Badge React">
                 <img src="assets/svg/badges/symfony.svg" alt="Badge Symfony">
             </div>
+        </div>
+    </div>
+
+    <!-- Slide a propos de moi -->
+    <div class="slide">
+        <div class="slide-header">
+            <h1>A propos de moi</h1>
+            <h2>Qui suis-je ?</h2>
         </div>
     </div>
 
@@ -170,6 +178,59 @@
                 <div class="compt-back">
                     <p>Docker</p>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide Contact -->
+    <div class="slide">
+        <div class="slide-header">
+            <h1>Contact</h1>
+            <h2>Me contacter</h2>
+        </div>
+
+        <div class="flex">
+            <div class="small-contact-left">
+                <div class="ct-item">
+                    <i class="bi bi-envelope"></i>
+                    <p>Adresse e-mail : lorisplp.pro@gmail.com</p>
+                </div>
+
+                <div class="ct-item">
+                    <i class="bi bi-phone"></i>
+                    <p>Téléphone : 0493 02 75 18</p>
+                </div>
+
+                <div class="ct-item">
+                    <i class="bi bi-cursor"></i>
+                    <p>Localisation : Enghien, Belgique</p>
+                </div>
+            </div>
+            <div class="contact-form-right">
+                <div class="two-fields">
+                    <div class="form-group">
+                        <label for="name">Nom :</label>
+                        <input type="text" name="name" id="name" placeholder="Nom" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstname">Prénom :</label>
+                        <input type="text" name="firstname" id="firstname" placeholder="Prénom" class="form-control"
+                            required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="mail">Adresse e-mail :</label>
+                    <input type="text" name="mail" id="mail" placeholder="Adresse e-mail" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Téléphone :</label>
+                    <input type="text" name="phone" id="phone" placeholder="Téléphone" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="msg">Message :</label>
+                    <textarea name="msg" id="msg" required></textarea>
+                </div>
+                <a class="btn btn-success" href="#">Envoyer</a>
             </div>
         </div>
     </div>

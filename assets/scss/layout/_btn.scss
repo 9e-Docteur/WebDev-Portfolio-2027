@@ -1,0 +1,18 @@
+.btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--success-color-border);
+    width: fit-content;
+
+    text-decoration: none;
+    color: white;
+    font-family: 'M Plus Rounded', sans-serif;
+}
+
+.btn-success {
+    background-color: var(--success-color);
+
+    &:hover {
+        background-color: var(--success-color-hover);
+    }
+}
