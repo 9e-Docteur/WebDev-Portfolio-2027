@@ -1,4 +1,20 @@
-nav {
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background-color: transparent;
+    border-bottom: 1px solid transparent;
+    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+
+    &.is-scrolled {
+        background-color: #202020;
+        border-bottom-color: #444444;
+    }
+}
+
+.site-header nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -46,13 +62,23 @@ nav {
 }
 
 .title {
-    h1 {
-        font-family: "Edu Hand", cursive;
-    }
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
 
-    h2 {
-        font-family: "Silkscreen", cursive;
-    }
+.title-name {
+    display: block;
+    font-family: "Edu Hand", cursive;
+    font-size: 2em;
+    font-weight: 700;
+}
+
+.title-job {
+    display: block;
+    font-family: "Silkscreen", cursive;
+    font-size: 1.5em;
+    font-weight: 700;
 }
 
 .active {
@@ -64,4 +90,47 @@ nav {
         font-weight: bold;
     }
 
+}
+
+@media (max-width: 900px) {
+    .site-header nav {
+        margin: 10px 12px;
+        gap: 12px;
+    }
+
+    .title-name {
+        font-size: 1.5em;
+    }
+
+    .title-job {
+        font-size: 1em;
+    }
+
+    .site-header nav ul {
+        margin-right: 0;
+
+        li {
+            padding: 6px 10px;
+
+            a {
+                font-size: 0;
+
+                i {
+                    margin-right: 0;
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+}
+
+
+.site-header nav ul li.active {
+    background-color: var(--secondary-color);
+    border-color: var(--primary-color);
+
+    a {
+        color: #000000;
+        font-weight: bold;
+    }
 }

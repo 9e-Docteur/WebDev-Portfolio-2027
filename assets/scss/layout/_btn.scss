@@ -1,16 +1,40 @@
 .btn {
-    padding: 8px 16px;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
     border-radius: 8px;
-    border: 1px solid var(--success-color-border);
+    border: 1px solid transparent;
     width: fit-content;
+    cursor: pointer;
 
     text-decoration: none;
     color: white;
     font-family: 'M Plus Rounded', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: #000000;
+
+    &:hover,
+    &:focus-visible {
+        background-color: var(--secondary-color);
+        outline: none;
+    }
+
+    &:active {
+        transform: translateY(1px);
+    }
 }
 
 .btn-success {
     background-color: var(--success-color);
+    border-color: var(--success-color-border);
 
     &:hover {
         background-color: var(--success-color-hover);

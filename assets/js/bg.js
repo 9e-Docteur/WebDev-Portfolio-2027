@@ -60,11 +60,13 @@ if (!canvas.parentNode) {
     document.body.prepend(canvas);
 }
 
+const fullHeight = CSS.supports('height', '100lvh') ? '100lvh' : '100vh';
+
 Object.assign(canvas.style, {
     position: 'fixed',
     inset: '0',
     width: '100%',
-    height: '100%',
+    height: fullHeight,
     zIndex: '-1',
     pointerEvents: 'none',
     display: 'block'
@@ -74,6 +76,7 @@ document.body.style.position = 'relative';
 
 const gl = canvas.getContext('webgl', {
     alpha: true,
+    premultipliedAlpha: true,
     antialias: false,
     depth: false,
     stencil: false,
@@ -87,13 +90,35 @@ lineCanvas.setAttribute('aria-hidden', 'true');
 lineCanvas.style.position = 'fixed';
 lineCanvas.style.inset = '0';
 lineCanvas.style.width = '100%';
-lineCanvas.style.height = '100%';
+lineCanvas.style.height = fullHeight;
 lineCanvas.style.zIndex = '-1';
 lineCanvas.style.pointerEvents = 'none';
 lineCanvas.style.display = 'block';
 document.body.prepend(lineCanvas);
 
 const lineCtx = lineCanvas.getContext('2d');
+
+function viewportSize() {
+    return {
+        width: window.innerWidth,
+        height: Math.max(window.innerHeight, document.documentElement.clientHeight, canvas.getBoundingClientRect().height)
+    };
+}
+
+function onViewportChange(current, apply) {
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            const next = viewportSize();
+            const size = current();
+            if (next.width === size.width && next.height <= size.height) {
+                return;
+            }
+            apply(next, size);
+        }, 150);
+    });
+}
 
 if (!gl) {
     const ctx = canvas.getContext('2d');
@@ -105,11 +130,11 @@ if (!gl) {
     const count = BG_CONFIG.motion.fallbackParticleCount;
     const particles = [];
 
-    function resizeFallbackCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        lineCanvas.width = window.innerWidth;
-        lineCanvas.height = window.innerHeight;
+    function resizeFallbackCanvas(size = viewportSize()) {
+        canvas.width = size.width;
+        canvas.height = size.height;
+        lineCanvas.width = size.width;
+        lineCanvas.height = size.height;
     }
 
     function initFallbackParticles() {
@@ -135,10 +160,16 @@ if (!gl) {
         mouse.y = null;
     });
 
-    window.addEventListener('resize', () => {
-        resizeFallbackCanvas();
-        initFallbackParticles();
-    });
+    onViewportChange(
+        () => ({ width: canvas.width, height: canvas.height }),
+        (next, previous) => {
+            resizeFallbackCanvas(next);
+            particles.forEach((particle) => {
+                particle.x *= next.width / previous.width;
+                particle.y *= next.height / previous.height;
+            });
+        }
+    );
 
     resizeFallbackCanvas();
     initFallbackParticles();
@@ -251,7 +282,7 @@ if (!gl) {
             }
 
             float alpha = smoothstep(0.5, 0.0, d) * u_color.a;
-            gl_FragColor = vec4(u_color.rgb, alpha);
+            gl_FragColor = vec4(u_color.rgb * alpha, alpha);
         }
     `;
 
@@ -302,16 +333,19 @@ if (!gl) {
         throw new Error('Unable to allocate WebGL particle buffer.');
     }
 
-    function resizeCanvas() {
-        cssWidth = window.innerWidth;
-        cssHeight = window.innerHeight;
+    function resizeCanvas(size = viewportSize()) {
+        cssWidth = size.width;
+        cssHeight = size.height;
         const width = Math.floor(cssWidth * config.dpr);
         const height = Math.floor(cssHeight * config.dpr);
 
         canvas.width = width;
         canvas.height = height;
-        lineCanvas.width = cssWidth * config.dpr;
-        lineCanvas.height = cssHeight * config.dpr;
+        lineCanvas.width = width;
+        lineCanvas.height = height;
+        lineCtx.setTransform(config.dpr, 0, 0, config.dpr, 0, 0);
+        lineCtx.lineCap = 'round';
+        lineCtx.lineJoin = 'round';
         gl.viewport(0, 0, width, height);
     }
 
@@ -371,7 +405,7 @@ if (!gl) {
     }
 
     function drawConnections() {
-        lineCtx.clearRect(0, 0, lineCanvas.width, lineCanvas.height);
+        lineCtx.clearRect(0, 0, cssWidth, cssHeight);
 
         for (let i = 0; i < config.particleCount; i++) {
             const ax = positions[i * 2];
@@ -447,17 +481,25 @@ if (!gl) {
         mouse.y = null;
     });
 
-    window.addEventListener('resize', () => {
-        resizeCanvas();
-        initParticles();
-    });
+    onViewportChange(
+        () => ({ width: cssWidth, height: cssHeight }),
+        (next, previous) => {
+            const scaleX = next.width / previous.width;
+            const scaleY = next.height / previous.height;
+            resizeCanvas(next);
+            for (let i = 0; i < config.particleCount; i++) {
+                positions[i * 2] *= scaleX;
+                positions[i * 2 + 1] *= scaleY;
+            }
+        }
+    );
 
     resizeCanvas();
     initParticles();
 
     gl.clearColor(0, 0, 0, 0);
     gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
     lineCtx.lineCap = 'round';
     lineCtx.lineJoin = 'round';

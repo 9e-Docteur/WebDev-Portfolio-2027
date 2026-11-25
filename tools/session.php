@@ -1,11 +1,12 @@
 <?php
-// configurer la sécurité de la session
-session_set_cookie_params([
-    "path" => "/",
-    "domain" => '',
-    "secure" => false,
-    "httponly" => true,
-    "samesite" => "Lax"
-]);
+if (session_status() === PHP_SESSION_NONE) {
+    session_set_cookie_params([
+        'path' => '/',
+        'domain' => '',
+        'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
 
-session_start();
+    session_start();
+}

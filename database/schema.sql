@@ -1,0 +1,116 @@
+CREATE DATABASE IF NOT EXISTS portfolio CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE portfolio;
+
+CREATE TABLE IF NOT EXISTS admins (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(64) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS settings (
+    name VARCHAR(64) PRIMARY KEY,
+    value TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS passions (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(64) NOT NULL,
+    description TEXT NOT NULL,
+    position INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS objectives (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    text VARCHAR(255) NOT NULL,
+    position INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS skills (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(64) NOT NULL,
+    image VARCHAR(255) NOT NULL,
+    light_bg TINYINT(1) NOT NULL DEFAULT 0,
+    position INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS software (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(64) NOT NULL,
+    image VARCHAR(255) NOT NULL,
+    light_bg TINYINT(1) NOT NULL DEFAULT 0,
+    position INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS projects (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    slug VARCHAR(120) NOT NULL UNIQUE,
+    description TEXT NOT NULL,
+    image VARCHAR(255) NULL,
+    tagline VARCHAR(160) NULL,
+    kind VARCHAR(60) NULL,
+    context VARCHAR(100) NULL,
+    year VARCHAR(20) NULL,
+    duration VARCHAR(60) NULL,
+    role VARCHAR(100) NULL,
+    status VARCHAR(40) NULL,
+    content TEXT NULL,
+    features TEXT NULL,
+    learnings TEXT NULL,
+    url_site VARCHAR(255) NULL,
+    url_code VARCHAR(255) NULL,
+    position INT NOT NULL DEFAULT 0,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS project_skills (
+    project_id INT UNSIGNED NOT NULL,
+    skill_id INT UNSIGNED NOT NULL,
+    PRIMARY KEY (project_id, skill_id),
+    FOREIGN KEY (project_id) REFERENCES projects (id) ON DELETE CASCADE,
+    FOREIGN KEY (skill_id) REFERENCES skills (id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS project_images (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    project_id INT UNSIGNED NOT NULL,
+    image VARCHAR(255) NOT NULL,
+    position INT NOT NULL DEFAULT 0,
+    FOREIGN KEY (project_id) REFERENCES projects (id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS messages (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    lastname VARCHAR(100) NOT NULL,
+    firstname VARCHAR(100) NOT NULL,
+    email VARCHAR(190) NOT NULL,
+    phone VARCHAR(30) NULL,
+    body TEXT NOT NULL,
+    ip VARCHAR(45) NULL,
+    is_read TINYINT(1) NOT NULL DEFAULT 0,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS page_views (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    path VARCHAR(255) NOT NULL,
+    referrer VARCHAR(255) NULL,
+    device VARCHAR(20) NOT NULL,
+    browser VARCHAR(30) NOT NULL,
+    visitor CHAR(16) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX page_views_created_at (created_at),
+    INDEX page_views_path (path)
+);
+
+CREATE TABLE IF NOT EXISTS timeline (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    kind VARCHAR(20) NOT NULL DEFAULT 'experience',
+    title VARCHAR(120) NOT NULL,
+    organization VARCHAR(120) NOT NULL,
+    location VARCHAR(120) NULL,
+    period VARCHAR(60) NOT NULL,
+    start_month CHAR(7) NULL,
+    description TEXT NULL,
+    position INT NOT NULL DEFAULT 0
+);

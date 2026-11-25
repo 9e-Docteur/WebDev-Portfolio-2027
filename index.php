@@ -1,240 +1,246 @@
+<?php
+require_once 'tools/session.php';
+require_once 'tools/db.php';
+require_once 'tools/helpers.php';
+require_once 'tools/content.php';
+require_once 'tools/stats.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_once 'tools/contact.php';
+    handle_contact($bdd);
+}
+
+track_page_view($bdd, '/');
+
+$whoami = setting($bdd, 'whoami');
+$passions = ordered_rows($bdd, 'passions');
+$objectives = ordered_rows($bdd, 'objectives');
+$timeline = ordered_rows($bdd, 'timeline');
+$projects = ordered_rows($bdd, 'projects');
+$skills = ordered_rows($bdd, 'skills');
+$software = ordered_rows($bdd, 'software');
+
+$contactErrors = $_SESSION['contact_errors'] ?? [];
+$contactOld = $_SESSION['contact_old'] ?? [];
+unset($_SESSION['contact_errors'], $_SESSION['contact_old']);
+$contactSent = isset($_GET['sent']);
+
+$meta = [
+    'schema' => [[
+        '@type' => 'ProfilePage',
+        '@id' => base_url() . '#profile',
+        'url' => base_url(),
+        'name' => 'Loris Populaire - Portfolio',
+        'isPartOf' => ['@id' => base_url() . '#website'],
+        'mainEntity' => ['@id' => base_url() . '#loris-populaire'],
+        'inLanguage' => 'fr',
+        'hasPart' => array_map(fn($project) => ['@id' => project_url($project) . '#project'], $projects),
+    ]],
+];
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <?php include 'partials/head.php'; ?>
 </head>
 
 <body>
     <?php include 'partials/nav.php'; ?>
-    <div class="slide">
+    <main>
+    <section class="slide" id="accueil" aria-label="Accueil">
         <div class="centered flex-direction-column">
-            <img src="assets/svg/avatar.svg" alt="Avatar de Loris Populaire" id="avatar" class="dark-bg">
+            <img src="<?= e(asset('assets/img/photo.jpg')) ?>" alt="Photo de Loris Populaire, développeur web" id="avatar" width="320" height="320" fetchpriority="high">
             <div class="title txt-centered">
-                <h1>Loris Populaire</h1>
-                <h2>Web Developper</h2>
+                <h1 class="title-name">Loris Populaire</h1>
+                <p class="title-job">Web Developer</p>
             </div>
             <div class="badges">
-                <img src="assets/svg/badges/html.svg" alt="Badge HTML">
-                <img src="assets/svg/badges/css.svg" alt="Badge CSS">
-                <img src="assets/svg/badges/js.svg" alt="Badge JS">
-                <img src="assets/svg/badges/php.svg" alt="Badge PHP">
-                <img src="assets/svg/badges/react.svg" alt="Badge React">
-                <img src="assets/svg/badges/symfony.svg" alt="Badge Symfony">
+                <img src="assets/svg/badges/html.svg" alt="Badge HTML" width="98" height="26">
+                <img src="assets/svg/badges/css.svg" alt="Badge CSS" width="98" height="26">
+                <img src="assets/svg/badges/js.svg" alt="Badge JS" width="98" height="26">
+                <img src="assets/svg/badges/php.svg" alt="Badge PHP" width="98" height="26">
+                <img src="assets/svg/badges/react.svg" alt="Badge React" width="98" height="26">
+                <img src="assets/svg/badges/symfony.svg" alt="Badge Symfony" width="98" height="26">
             </div>
+            <?php if ($cvUrl = cv_url()): ?>
+                <a class="btn btn-primary hero-cv" href="<?= e($cvUrl) ?>" target="_blank" rel="noopener"><i class="bi bi-file-earmark-arrow-down" aria-hidden="true"></i>Télécharger mon CV</a>
+            <?php endif; ?>
         </div>
-    </div>
+    </section>
 
-    <!-- Slide a propos de moi -->
-    <div class="slide">
-        <div class="slide-header">
-            <h1>A propos de moi</h1>
-            <h2>Qui suis-je ?</h2>
-        </div>
-    </div>
+    <?php include 'partials/about.php'; ?>
 
-    <!-- Slide Projets -->
-    <div class="slide">
+    <?php if ($timeline): ?>
+        <?php include 'partials/timeline.php'; ?>
+    <?php endif; ?>
+
+    <section class="slide" id="projets" aria-labelledby="projets-title">
         <div class="slide-header">
-            <h1>Projets</h1>
-            <h2>Conception personnel dans mon temps libre ou une réalisation pour une personne, un groupe de personnes,
-                ou dans le cadre de mes cours</h2>
+            <h2 id="projets-title">Projets</h2>
+            <p>Projets personnels réalisés sur mon temps libre, pour d'autres personnes ou dans le cadre de mes
+                cours</p>
         </div>
 
         <div class="card-holder">
-            <!-- DocMod -->
-            <div class="card">
-                <div class="card-content">
-                    <img src="assets/img/projets/docmod.png" alt="Photo du projet DocMod">
-                    <h1>DocMod</h1>
-                    <p>Mod Minecraft conçu en 2021. Encore en développement sur mon temps libre sur des technologies de
-                        plus
-                        en plus complexe</p>
-                </div>
-            </div>
-
-            <!-- VivaFest -->
-            <div class="card">
-                <div class="card-content">
-                    <img src="assets/img/projets/vivafest.png" alt="Photo du projet VivaFest">
-                    <h1>VivaFest</h1>
-                    <p>Dans le cadre de mon examen de première année de WebDev en 2026, j'ai du réalisé un site
-                        festivalier. Site inspiré
-                        de La Semo.</p>
-                </div>
-            </div>
+            <?php foreach ($projects as $project): ?>
+                <a class="card card-link" href="<?= e(project_url($project)) ?>">
+                    <div class="card-content">
+                        <?php if ($project['image']): ?>
+                            <img src="<?= e($project['image']) ?>" alt="Aperçu du projet <?= e($project['title']) ?>" loading="lazy" decoding="async">
+                        <?php else: ?>
+                            <div class="card-wip">
+                                <i class="bi bi-cone-striped"></i>
+                                <span>Work in progress</span>
+                            </div>
+                        <?php endif; ?>
+                        <h3><?= e($project['title']) ?></h3>
+                        <p><?= e($project['description']) ?></p>
+                        <span class="card-more">Voir le projet <i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                    </div>
+                </a>
+            <?php endforeach; ?>
         </div>
-    </div>
+    </section>
 
-    <div class="slide">
+    <section class="slide" id="competences" aria-labelledby="competences-title">
         <div class="slide-header">
-            <h1>Compétences</h1>
-            <h2>Les langues de programmations et technologies sur lesquels je suis aguérit</h2>
+            <h2 id="competences-title">Compétences</h2>
+            <p>Les langages et technologies que je maîtrise</p>
         </div>
         <div class="compt-holder">
-            <!-- HTML -->
-            <div class="compt-item">
-                <img src="assets/img/competences/html.png" alt="Icône de HTML">
-
-                <div class="compt-back">
-                    <p>HTML</p>
+            <?php foreach ($skills as $item): ?>
+                <div class="compt-item">
+                    <img src="<?= e($item['image']) ?>" alt="Logo <?= e($item['name']) ?>" width="72" height="72" loading="lazy" decoding="async"<?= $item['light_bg'] ? ' class="compt-icon-light"' : '' ?>>
+                    <div class="compt-back">
+                        <p><?= e($item['name']) ?></p>
+                    </div>
                 </div>
-            </div>
-
-            <!-- CSS -->
-            <div class="compt-item">
-                <img src="assets/img/competences/css.png" alt="Icône de CSS">
-
-                <div class="compt-back">
-                    <p>CSS</p>
-                </div>
-            </div>
-
-            <!-- JS -->
-            <div class="compt-item">
-                <img src="assets/img/competences/js.png" alt="Icône de JS">
-
-                <div class="compt-back">
-                    <p>JS</p>
-                </div>
-            </div>
-
-            <!-- PHP -->
-            <div class="compt-item">
-                <img src="assets/img/competences/php.png" alt="Icône de PHP">
-
-                <div class="compt-back">
-                    <p>PHP</p>
-                </div>
-            </div>
-
-            <!-- REACT -->
-            <div class="compt-item">
-                <img src="assets/img/competences/react.webp" alt="Icône de React">
-
-                <div class="compt-back">
-                    <p>React</p>
-                </div>
-            </div>
-
-            <!-- Symfony -->
-            <div class="compt-item">
-                <img src="assets/img/competences/symfony.webp" alt="Icône de Symfony">
-
-                <div class="compt-back">
-                    <p>Symfony</p>
-                </div>
-            </div>
-
-            <!-- Vue -->
-            <div class="compt-item">
-                <img src="assets/img/competences/vue.webp" alt="Icône de Vue">
-
-                <div class="compt-back">
-                    <p>Vue</p>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
 
-        <div class="slide-header">
-            <h1>Logiciels utilisés</h1>
-            <h2>Ce que j'utilise pour le développement</h2>
+        <div class="slide-header" id="logiciels">
+            <h2>Logiciels utilisés</h2>
+            <p>Ce que j'utilise pour le développement</p>
         </div>
         <div class="compt-holder">
-            <!-- VS Code -->
-            <div class="compt-item">
-                <img src="assets/img/logiciels/vscode.webp" alt="Icône de VSCode">
-
-                <div class="compt-back">
-                    <p>VS Code</p>
+            <?php foreach ($software as $item): ?>
+                <div class="compt-item">
+                    <img src="<?= e($item['image']) ?>" alt="Logo <?= e($item['name']) ?>" width="72" height="72" loading="lazy" decoding="async"<?= $item['light_bg'] ? ' class="compt-icon-light"' : '' ?>>
+                    <div class="compt-back">
+                        <p><?= e($item['name']) ?></p>
+                    </div>
                 </div>
-            </div>
-
-            <!-- Idea -->
-            <div class="compt-item">
-                <img src="assets/img/logiciels/idea.webp" alt="Icône de idea">
-
-                <div class="compt-back">
-                    <p>Intellij Idea</p>
-                </div>
-            </div>
-
-            <!-- PHPStorm -->
-            <div class="compt-item">
-                <img src="assets/img/logiciels/phpstorm.png" alt="Icône de PhpStorm">
-
-                <div class="compt-back">
-                    <p>Intellij PhpStorm</p>
-                </div>
-            </div>
-
-            <!-- Docker -->
-            <div class="compt-item">
-                <img src="assets/img/logiciels/docker.webp" alt="Icône de docker">
-
-                <div class="compt-back">
-                    <p>Docker</p>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
-    </div>
+    </section>
 
-    <!-- Slide Contact -->
-    <div class="slide">
+    <section class="slide" id="contact" aria-labelledby="contact-title">
         <div class="slide-header">
-            <h1>Contact</h1>
-            <h2>Me contacter</h2>
+            <h2 id="contact-title">Contact</h2>
+            <p>Un stage, un projet, une question ? Écris-moi</p>
         </div>
 
-        <div class="flex">
-            <div class="small-contact-left">
-                <div class="ct-item">
+        <div class="contact">
+            <div class="contact-info">
+                <a class="ct-item" href="mailto:lorisplp.pro@gmail.com">
                     <i class="bi bi-envelope"></i>
-                    <p>Adresse e-mail : lorisplp.pro@gmail.com</p>
-                </div>
+                    <span>
+                        <small>E-mail</small>
+                        lorisplp.pro@gmail.com
+                    </span>
+                </a>
 
-                <div class="ct-item">
+                <a class="ct-item" href="tel:+32493027518">
                     <i class="bi bi-phone"></i>
-                    <p>Téléphone : 0493 02 75 18</p>
-                </div>
+                    <span>
+                        <small>Téléphone</small>
+                        +32 493 02 75 18
+                    </span>
+                </a>
 
                 <div class="ct-item">
-                    <i class="bi bi-cursor"></i>
-                    <p>Localisation : Enghien, Belgique</p>
+                    <i class="bi bi-geo-alt"></i>
+                    <span>
+                        <small>Localisation</small>
+                        Enghien, Belgique
+                    </span>
                 </div>
+
+                <?php if (cv_url()): ?>
+                    <a class="ct-item" href="<?= e(cv_url()) ?>" target="_blank" rel="noopener">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                        <span>
+                            <small>CV</small>
+                            Télécharger en PDF
+                        </span>
+                    </a>
+                <?php endif; ?>
+
+                <?php $socials = social_links(); ?>
+                <?php if ($socials): ?>
+                    <div class="contact-socials">
+                        <?php foreach ($socials as $social): ?>
+                            <a href="<?= e($social['url']) ?>" target="_blank" rel="noopener" aria-label="<?= e($social['label']) ?>" title="<?= e($social['label']) ?>">
+                                <i class="bi <?= e($social['icon']) ?>"></i>
+                            </a>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
             </div>
-            <div class="contact-form-right">
+
+            <form class="contact-form" method="post" action="./#contact">
+                <?= csrf_field() ?>
+                <?php if ($contactSent): ?>
+                    <p class="form-alert form-alert-success">Merci, ton message a bien été envoyé !</p>
+                <?php endif; ?>
+                <?php foreach ($contactErrors as $error): ?>
+                    <p class="form-alert form-alert-error"><?= e($error) ?></p>
+                <?php endforeach; ?>
                 <div class="two-fields">
                     <div class="form-group">
-                        <label for="name">Nom :</label>
-                        <input type="text" name="name" id="name" placeholder="Nom" class="form-control" required>
+                        <label for="name">Nom</label>
+                        <input type="text" name="name" id="name" value="<?= e($contactOld['lastname'] ?? '') ?>" placeholder="Dupont" class="form-control"
+                            autocomplete="family-name" required>
                     </div>
                     <div class="form-group">
-                        <label for="firstname">Prénom :</label>
-                        <input type="text" name="firstname" id="firstname" placeholder="Prénom" class="form-control"
-                            required>
+                        <label for="firstname">Prénom</label>
+                        <input type="text" name="firstname" id="firstname" value="<?= e($contactOld['firstname'] ?? '') ?>" placeholder="Jean" class="form-control"
+                            autocomplete="given-name" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="mail">Adresse e-mail :</label>
-                    <input type="text" name="mail" id="mail" placeholder="Adresse e-mail" class="form-control" required>
+                    <label for="mail">Adresse e-mail</label>
+                    <input type="email" name="mail" id="mail" value="<?= e($contactOld['email'] ?? '') ?>" placeholder="jean.dupont@exemple.com"
+                        class="form-control" autocomplete="email" required>
                 </div>
                 <div class="form-group">
-                    <label for="phone">Téléphone :</label>
-                    <input type="text" name="phone" id="phone" placeholder="Téléphone" class="form-control">
+                    <label for="phone">Téléphone <small>(facultatif)</small></label>
+                    <input type="tel" name="phone" id="phone" value="<?= e($contactOld['phone'] ?? '') ?>" placeholder="+32 470 00 00 00" class="form-control"
+                        autocomplete="tel">
                 </div>
                 <div class="form-group">
-                    <label for="msg">Message :</label>
-                    <textarea name="msg" id="msg" required></textarea>
+                    <label for="msg">Message</label>
+                    <textarea name="msg" id="msg" placeholder="Bonjour Loris, ..." class="form-control"
+                        minlength="10" maxlength="5000" required><?= e($contactOld['body'] ?? '') ?></textarea>
                 </div>
-                <a class="btn btn-success" href="#">Envoyer</a>
-            </div>
+                <div class="form-trap" aria-hidden="true">
+                    <label for="website">Site web</label>
+                    <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i>Envoyer</button>
+                <p class="form-note">Tes données servent uniquement à te répondre et sont supprimées après 12 mois. <a href="<?= e(base_url('confidentialite')) ?>">En savoir plus</a></p>
+            </form>
         </div>
-    </div>
+    </section>
+    </main>
+    <?php include 'partials/footer.php'; ?>
+    <script src="<?= e(asset('assets/js/bg.js')) ?>" defer></script>
+    <script src="<?= e(asset('assets/js/header.js')) ?>" defer></script>
+    <script src="<?= e(asset('assets/js/about.js')) ?>" defer></script>
+    <script src="<?= e(asset('assets/js/nav.js')) ?>" defer></script>
 </body>
-<script src="assets/js/bg.js"></script>
 
 </html>

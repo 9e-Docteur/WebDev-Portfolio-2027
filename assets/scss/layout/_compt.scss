@@ -1,11 +1,10 @@
-// Cards -- Compétences & Logiciels utilisés
-
 .compt-holder {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 16px;
     margin-top: 16px;
+    margin-bottom: 48px;
 }
 
 .compt-item {
@@ -21,50 +20,44 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 2;
-    transition: all 0.3s ease-in-out;
+    gap: 20px;
+
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
 
     img {
-        margin: 32px;
-        width: 50%;
-        height: inherit;
-        border-radius: 16px;
-        margin-bottom: 16px;
-        transition: width 0.3s ease-in-out;
+        width: 72px;
+        height: 72px;
+        object-fit: contain;
+        transition: transform 0.3s ease-in-out;
     }
 
-    .compt-back {
-        width: inherit;
-        background-color: #fff;
-        color: black;
-        border-radius: 0 0 16px 16px;
-        z-index: 0;
+    .compt-icon-light {
+        padding: 6px;
+        background-color: #ffffff;
+        border-radius: 50%;
+        box-sizing: border-box;
+    }
 
-        transform: translateY(0%);
-        transition: transform 0.3s ease-in-out;
-
-        p {
-            padding: 8px;
-            text-align: center;
-            font-family: 'M Plus Rounded', sans-serif;
-            font-weight: 700;
-        }
+    .compt-back p {
+        font-family: 'M Plus Rounded', sans-serif;
+        font-weight: 700;
+        font-size: 15px;
+        color: var(--tertiary-color);
+        text-align: center;
+        transition: color 0.3s ease-in-out;
     }
 
     &:hover {
         transform: translateY(-8px);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        border-radius: 16px 16px 0 0;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35);
+        border-color: var(--primary-color);
 
         img {
-            width: 80%;
-            transition: width 0.3s ease-in-out;
+            transform: scale(1.15);
         }
 
-        .compt-back {
-            transform: translateY(35%);
-            transition: transform 0.3s ease-in-out;
+        .compt-back p {
+            color: var(--secondary-color);
         }
     }
-
 }

@@ -1,15 +1,27 @@
-<nav>
-    <div class="title">
-        <h1>Loris Populaire</h1>
-        <h2>Web Developper</h2>
-    </div>
-    <div>
+<?php
+$activeNav = $activeNav ?? 'accueil';
+$navLinks = [
+    'accueil' => ['icon' => 'bi-house', 'label' => 'Accueil'],
+    'a-propos' => ['icon' => 'bi-person', 'label' => 'À propos'],
+    'parcours' => ['icon' => 'bi-signpost-split', 'label' => 'Parcours'],
+    'projets' => ['icon' => 'bi-box', 'label' => 'Projets'],
+    'competences' => ['icon' => 'bi-bounding-box', 'label' => 'Compétences'],
+    'contact' => ['icon' => 'bi-telephone', 'label' => 'Contact'],
+];
+$onHome = $activeNav === 'accueil';
+?>
+<header class="site-header" data-site-header>
+    <nav aria-label="Navigation principale">
+        <a class="title" href="<?= $onHome ? '#accueil' : e(base_url()) ?>">
+            <span class="title-name">Loris Populaire</span>
+            <span class="title-job">Web Developer</span>
+        </a>
         <ul class="dark-bg">
-            <li class="active"><a href="#"><i class="bi bi-house"></i>Acceuil</a></li>
-            <li><a href="#"><i class="bi bi-person"></i>A propos</a></li>
-            <li><a href="#"><i class="bi bi-box"></i>Projets</a></li>
-            <li><a href="#"><i class="bi bi-bounding-box"></i>Compétences</a></li>
-            <li><a href="#"><i class="bi bi-telephone"></i>Contact</a></li>
+            <?php foreach ($navLinks as $anchor => $link): ?>
+                <li<?= $anchor === $activeNav ? ' class="active"' : '' ?>>
+                    <a href="<?= $onHome ? '#' . $anchor : e(base_url()) . '#' . $anchor ?>" aria-label="<?= e($link['label']) ?>"<?= $anchor === $activeNav ? ' aria-current="true"' : '' ?>><i class="bi <?= $link['icon'] ?>" aria-hidden="true"></i><?= e($link['label']) ?></a>
+                </li>
+            <?php endforeach; ?>
         </ul>
-    </div>
-</nav>
+    </nav>
+</header>

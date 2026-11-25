@@ -2,19 +2,25 @@
     font-family: 'M Plus Rounded';
     font-style: normal;
     font-weight: 400;
-    src: url('../fonts/MPLUSRounded1c-Regular.ttf') format('truetype');
+    font-display: swap;
+    src: url('../fonts/MPLUSRounded1c-Regular.woff2') format('woff2'),
+        url('../fonts/MPLUSRounded1c-Regular.ttf') format('truetype');
 }
 
 @font-face {
     font-family: "Silkscreen";
     font-style: normal;
     font-weight: 400;
-    src: url('../fonts/Silkscreen-Regular.ttf') format('truetype');
+    font-display: swap;
+    src: url('../fonts/Silkscreen-Regular.woff2') format('woff2'),
+        url('../fonts/Silkscreen-Regular.ttf') format('truetype');
 }
 
 @font-face {
     font-family: "Edu Hand";
     font-style: normal;
     font-weight: 400;
-    src: url('../fonts/EduQLDHand-VariableFont_wght.ttf') format('truetype');
+    font-display: swap;
+    src: url('../fonts/EduQLDHand-Regular.woff2') format('woff2'),
+        url('../fonts/EduQLDHand-VariableFont_wght.ttf') format('truetype');
 }

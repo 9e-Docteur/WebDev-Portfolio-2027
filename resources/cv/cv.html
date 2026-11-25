@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>CV - Loris Populaire</title>
+<link rel="stylesheet" href="../../assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
+<style>
+@font-face { font-family: "M Plus Rounded"; src: url("../../assets/fonts/MPLUSRounded1c-Regular.woff2"); }
+@font-face { font-family: "Silkscreen"; src: url("../../assets/fonts/Silkscreen-Regular.woff2"); }
+@font-face { font-family: "Edu Hand"; src: url("../../assets/fonts/EduQLDHand-Regular.woff2"); }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+@page { size: A4; margin: 0; }
+html, body { margin: 0; padding: 0; }
+body { font-family: "M Plus Rounded", sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+@media screen { body { background: #d9d9d9; padding: 40px; } }
+.page { width: 210mm; height: 297mm; margin: 0 auto; background: #fff; display: grid; grid-template-columns: 260px 1fr; overflow: hidden; }
+@media screen { .page { box-shadow: 0 10px 40px rgba(0,0,0,.25); } }
+
+.side { background: #202020; color: #f2f2f2; padding: 36px 26px; display: flex; flex-direction: column; gap: 26px; }
+.avatar { width: 132px; height: 132px; border-radius: 50%; background: #363636; border: 3px solid #ff9100; overflow: hidden; align-self: center; }
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.side h3 { font-family: "Silkscreen"; font-size: 12px; font-weight: 400; color: #ff9100; letter-spacing: 1px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px dashed #555; }
+.contact li { list-style: none; display: flex; gap: 10px; align-items: center; font-size: 11.5px; margin-bottom: 7px; word-break: break-all; }
+.contact i { color: #ff9100; font-size: 13px; width: 14px; }
+.group { margin-bottom: 9px; }
+.group p { font-size: 10px; color: #bebebe; margin-bottom: 4px; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.chips span { font-size: 10.5px; padding: 2px 7px; border: 1px solid #555; border-radius: 999px; }
+.lang li { list-style: none; display: flex; justify-content: space-between; font-size: 11.5px; margin-bottom: 6px; }
+.lang span { color: #ffd8ba; font-size: 10.5px; }
+.passions li { list-style: none; font-size: 11.5px; margin-bottom: 5px; }
+.passions li::before { content: "> "; font-family: "Silkscreen"; color: #ff9100; font-size: 10px; }
+
+.main { padding: 34px 38px; color: #2a2a2a; }
+.name { font-family: "Edu Hand"; font-size: 46px; line-height: 1; color: #202020; }
+.role { font-family: "Silkscreen"; font-size: 15px; margin-top: 18px; letter-spacing: 1px; }
+.seek { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding: 5px 12px; background: #fff3e6; border-left: 3px solid #ff9100; font-size: 12px; }
+.main h2 { font-family: "Silkscreen"; font-size: 14px; font-weight: 400; margin: 20px 0 10px; display: flex; align-items: center; gap: 10px; }
+.main h2::before { content: ""; width: 10px; height: 10px; background: #ff9100; }
+.main h2::after { content: ""; flex: 1; height: 1px; background: #e2e2e2; }
+.profile { font-size: 12.5px; line-height: 1.65; color: #444; }
+.item { display: grid; grid-template-columns: 92px 1fr; gap: 12px; margin-bottom: 10px; }
+.item.compact { margin-bottom: 8px; }
+.date { font-family: "Silkscreen"; font-size: 10px; color: #ff9100; padding-top: 2px; }
+.item h4 { font-size: 13px; color: #202020; }
+.item .where { font-size: 11.5px; color: #777; margin: 1px 0 4px; }
+.item p.desc { font-size: 11.5px; line-height: 1.55; color: #444; }
+.tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px; }
+.tags span { font-size: 9.5px; padding: 1px 6px; background: #f1f1f1; border-radius: 4px; color: #555; }
+.todo { color: #c26b00; font-style: italic; }
+.foot { margin-top: 18px; font-size: 10.5px; color: #888; display: flex; align-items: center; gap: 6px; }
+.foot b { color: #ff9100; font-weight: 400; }
+a { color: inherit; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="page">
+    <aside class="side">
+        <div class="avatar"><img src="../../assets/img/photo.jpg" alt=""></div>
+
+        <div>
+            <h3>CONTACT</h3>
+            <ul class="contact">
+                <li><i class="bi bi-envelope"></i><a href="mailto:lorisplp.pro@gmail.com">lorisplp.pro@gmail.com</a></li>
+                <li><i class="bi bi-phone"></i>+32 493 02 75 18</li>
+                <li><i class="bi bi-geo-alt"></i>Enghien, Belgique</li>
+                <li><i class="bi bi-globe2"></i><a href="https://lorispopulaire.be">lorispopulaire.be</a></li>
+                <li><i class="bi bi-github"></i><a href="https://github.com/9e-Docteur">github.com/9e-Docteur</a></li>
+                <li><i class="bi bi-linkedin"></i><a href="https://www.linkedin.com/in/loris-populaire-885089349">in/loris-populaire</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h3>COMPÉTENCES</h3>
+            <div class="group"><p>Back-end</p><div class="chips"><span>PHP</span><span>Symfony</span><span>Java</span><span>MySQL</span></div></div>
+            <div class="group"><p>Front-end</p><div class="chips"><span>HTML</span><span>CSS / SCSS</span><span>JavaScript</span><span>React</span><span>Vue</span></div></div>
+            <div class="group"><p>Système &amp; outils</p><div class="chips"><span>Docker</span><span>Linux</span><span>Active Directory</span><span>NAS</span><span>Git</span></div></div>
+        </div>
+
+        <div>
+            <h3>LANGUES</h3>
+            <ul class="lang">
+                <li>Français <span>Langue maternelle</span></li>
+                <li>Néerlandais <span>Bilingue (immersion)</span></li>
+                <li>Anglais <span>Courant</span></li>
+                <li>Allemand <span>En apprentissage</span></li>
+                <li>Espagnol <span>Prochain objectif</span></li>
+            </ul>
+        </div>
+
+        <div>
+            <h3>PASSIONS</h3>
+            <ul class="passions">
+                <li>Simulation aérienne (2000 h+)</li>
+                <li>Homelab &amp; serveurs</li>
+                <li>Course à pied, natation</li>
+                <li>Modding Minecraft</li>
+            </ul>
+        </div>
+    </aside>
+
+    <main class="main">
+        <h1 class="name">Loris Populaire</h1>
+        <p class="role">DÉVELOPPEUR WEB</p>
+        <p class="seek"><i class="bi bi-briefcase"></i>Recherche un stage du 22 février au 9 mai 2027 · 7 à 11 semaines</p>
+
+        <h2>PROFIL</h2>
+        <p class="profile">Étudiant en BES Web Developer à l'EPSE, passionné d'informatique depuis l'âge de 9 ans. Attiré par le back-end et l'administration système, j'aime structurer et apporter des solutions concrètes.</p>
+
+        <h2>FORMATION</h2>
+        <div class="item">
+            <span class="date">2025 - 2027</span>
+            <div>
+                <h4>BES Web Developer</h4>
+                <p class="where">EPSE, Enseignement de Promotion Sociale d'Enghien</p>
+                <p class="desc">Brevet de l'Enseignement Supérieur : PHP, API Symfony, React, Vue.js, bases de données, UI/UX.</p>
+            </div>
+        </div>
+        <div class="item">
+            <span class="date">2019 - 2025</span>
+            <div>
+                <h4>Secondaire général, immersion FR-NL</h4>
+                <p class="where">Athénée Royal d'Enghien · diplômé en juin 2025</p>
+                <p class="desc">Sciences économiques, math IV, informatique de gestion, anglais.</p>
+            </div>
+        </div>
+        <div class="item compact">
+            <span class="date">2010 - 2019</span>
+            <div>
+                <h4>Maternelle et primaire en immersion FR-NL</h4>
+                <p class="where">Athénée Royal d'Enghien</p>
+            </div>
+        </div>
+
+        <h2>EXPÉRIENCES</h2>
+        <div class="item compact">
+            <span class="date">2024 - 2025</span>
+            <div>
+                <h4>Responsable technique · FreshSip</h4>
+                <p class="desc">Mini-entreprise Les Jeunes Entreprises : fournisseurs, clients, calcul des coûts avec le directeur financier.</p>
+            </div>
+        </div>
+        <div class="item compact">
+            <span class="date">DEPUIS 2026</span>
+            <div>
+                <h4>Étudiant chauffeur · Laboratoire Bauduin</h4>
+            </div>
+        </div>
+        <div class="item compact">
+            <span class="date">2023 - 2026</span>
+            <div>
+                <h4>Job étudiant · Delhaize Belgium</h4>
+                <p class="desc">Caisse, boulangerie et service client.</p>
+            </div>
+        </div>
+
+        <h2>PROJETS</h2>
+        <div class="item">
+            <span class="date">2026</span>
+            <div>
+                <h4>VivaFest</h4>
+                <p class="desc">Examen de 1re année : festival de musique inspiré de La Semo.</p>
+                <div class="tags"><span>HTML</span><span>SCSS</span><span>JavaScript</span></div>
+            </div>
+        </div>
+        <div class="item">
+            <span class="date">DEPUIS NOV. 2026</span>
+            <div>
+                <h4>Casilux</h4>
+                <p class="desc">Site de la mini-entreprise de mon ancienne école, en bénévolat.</p>
+                <div class="tags"><span>PHP</span><span>Symfony</span><span>MySQL</span></div>
+            </div>
+        </div>
+        <div class="item">
+            <span class="date">DEPUIS 2021</span>
+            <div>
+                <h4>DocMod</h4>
+                <p class="desc">Mod Minecraft sur l'univers de Doctor Who, publié sur Modrinth et CurseForge.</p>
+                <div class="tags"><span>Java</span></div>
+            </div>
+        </div>
+        <div class="item">
+            <span class="date">EN COURS</span>
+            <div>
+                <h4>Homelab</h4>
+                <p class="desc">Proxmox sur mini-PC : Windows Server, Debian, Docker, NAS, IPBX et réseau manageable.</p>
+                <div class="tags"><span>Proxmox</span><span>Docker</span><span>Linux</span></div>
+            </div>
+        </div>
+
+        <p class="foot"><i class="bi bi-globe2"></i>Portfolio complet sur <a href="https://lorispopulaire.be"><b>lorispopulaire.be</b></a></p>
+    </main>
+</div>
+</body>
+</html>

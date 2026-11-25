@@ -7,15 +7,24 @@
 @use "layout/cards.scss" as cards;
 @use "layout/compt.scss" as compt;
 @use "pages/contact.scss" as contact;
+@use "pages/project.scss" as project;
 @use "layout/form.scss" as form;
 @use "layout/_btn.scss" as btn;
+@use "layout/_terminal.scss" as terminal;
+@use "layout/_footer.scss" as footer;
+@use "layout/_timeline.scss" as timeline;
 
 * {
     margin: 0;
     padding: 0;
 }
 
+html {
+    color-scheme: dark;
+    background-color: #202020;
+    background-image: radial-gradient(circle, #2e2e2e, #202020);
+}
+
 body {
     color: var(--text-color);
-    background: radial-gradient(circle, #2e2e2e, #202020);
 }

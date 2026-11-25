@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<style>
+@font-face { font-family: "Silkscreen"; src: url("../../assets/fonts/Silkscreen-Regular.woff2"); }
+@font-face { font-family: "Edu Hand"; src: url("../../assets/fonts/EduQLDHand-Regular.woff2"); }
+@font-face { font-family: "M Plus Rounded"; src: url("../../assets/fonts/MPLUSRounded1c-Regular.woff2"); }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 1200px; height: 630px; overflow: hidden; position: relative; color: #fff; font-family: "M Plus Rounded", sans-serif; background: #202020 radial-gradient(circle at 70% 40%, #2e2e2e, #202020); }
+svg.bg { position: absolute; inset: 0; }
+.wrap { position: relative; height: 100%; display: flex; align-items: center; gap: 56px; padding: 0 70px; }
+.photo { width: 360px; height: 360px; flex-shrink: 0; border-radius: 50%; overflow: hidden; border: 4px solid #ff9100; box-shadow: 0 16px 40px rgba(0,0,0,.5); }
+.photo img { width: 100%; height: 100%; object-fit: cover; }
+h1 { font-family: "Edu Hand"; font-weight: 400; font-size: 80px; line-height: 1.05; white-space: nowrap; }
+h2 { font-family: "Silkscreen"; font-weight: 400; font-size: 36px; letter-spacing: 2px; margin-top: 10px; }
+.stage { display: inline-flex; align-items: center; gap: 14px; margin-top: 30px; padding: 12px 20px; background: rgba(255,145,0,.12); border-left: 5px solid #ff9100; font-size: 26px; }
+.stage b { color: #ffd8ba; font-weight: 400; }
+.focus { margin-top: 26px; font-size: 30px; color: #f2f2f2; letter-spacing: .5px; }
+.focus i { font-style: normal; color: #ff9100; margin: 0 10px; }
+.url { position: absolute; right: 48px; bottom: 34px; font-family: "Silkscreen"; font-size: 22px; color: #bebebe; }
+.url b { color: #ff9100; font-weight: 400; }
+</style>
+</head>
+<body>
+<svg class="bg" width="1200" height="630"><g stroke="rgba(255,255,255,.12)"><line x1="60" y1="60" x2="180" y2="140"/><line x1="1080" y1="470" x2="1160" y2="540"/><line x1="1050" y1="60" x2="1150" y2="120"/></g><g fill="rgba(255,255,255,.75)"><circle cx="60" cy="60" r="3"/><circle cx="180" cy="140" r="3"/><circle cx="1080" cy="470" r="3"/><circle cx="1160" cy="540" r="3"/><circle cx="1050" cy="60" r="3"/><circle cx="1150" cy="120" r="3"/><circle cx="600" cy="590" r="2"/></g></svg>
+<div class="wrap">
+    <div class="photo"><img src="../../assets/img/photo.jpg" alt=""></div>
+    <div>
+        <h1>Loris Populaire</h1>
+        <h2>WEB DEVELOPER</h2>
+        <p class="stage">Stage recherché · <b>22 février - 9 mai 2027</b></p>
+        <p class="focus">Back-end <i>·</i> Web <i>·</i> Infrastructure</p>
+    </div>
+</div>
+<p class="url"><b>&gt;</b> lorispopulaire.be</p>
+</body>
+</html>

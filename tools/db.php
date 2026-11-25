@@ -1,11 +1,24 @@
 <?php
+require_once __DIR__ . '/env.php';
+
 try {
-    $bdd = new PDO("mysql:host=localhost;dbname=portfolio;charset=utf8mb4", "root", "", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    $bdd = new PDO(
+        sprintf(
+            'mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
+            env('DB_HOST', '127.0.0.1'),
+            env('DB_PORT', '3306'),
+            env('DB_NAME', 'portfolio')
+        ),
+        env('DB_USER', 'root'),
+        env('DB_PASS', ''),
+        [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
+        ]
+    );
 } catch (PDOException $e) {
-    //error_log($e->getMessage());
+    error_log($e->getMessage());
     http_response_code(500);
-    exit("Une erreur est survenue lors de la connexion au serveur");
+    exit('Une erreur est survenue lors de la connexion au serveur');
 }
-
-
-?>
